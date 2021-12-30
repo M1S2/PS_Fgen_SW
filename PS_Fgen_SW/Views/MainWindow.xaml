@@ -30,6 +30,7 @@
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{Binding Device.IDN, StringFormat=IDN:  {0}}"/>
         <TextBlock Text="{Binding StatusStr}"/>
+        <Button Height="30" Margin="10" Content="Save Settings" Command="{Binding Device.SaveSettings}"/>
 
         <TabControl Height="400">
             <TabItem Header="PS Channel">

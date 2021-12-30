@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using PS_Fgen_SW.Communication;
 
 namespace PS_Fgen_SW.Model
@@ -52,6 +54,19 @@ namespace PS_Fgen_SW.Model
             get => _dds2_Channel;
             set { Set(ref _dds2_Channel, value); }
         }
+
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        /// <summary>
+        /// Save the settings of the power supply
+        /// </summary>
+        public ICommand SaveSettings => new RelayCommand(() =>
+        {
+            CommIF?.Write("*SAV");
+            string dummyRead = CommIF?.ReadLine();     // Dummy read to get echoed data
+        });
+
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         public DeviceModel(Comm commIF)
         {

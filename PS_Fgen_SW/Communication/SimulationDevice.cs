@@ -77,6 +77,9 @@ namespace PS_Fgen_SW.Communication
                     case "*IDN?":
                         returnVal = "Markus Scheich,PS_Fgen,01,v0.0.0 Simulator";
                         break;
+                    case "*SAV":
+                        // Nothing to return 
+                        break;
                     /*******************************************************************************************************************/
                     case "SYST:REM":
                         // Nothing to return
