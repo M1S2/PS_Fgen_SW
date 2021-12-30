@@ -77,8 +77,8 @@ namespace PS_Fgen_SW.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            //Comm = new CommSim(false);
-            Comm = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            Comm = new CommSim(false);
+            //Comm = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
             Comm.Open();
             
             Device = new DeviceModel(Comm);

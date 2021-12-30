@@ -1,4 +1,4 @@
-﻿<Window x:Class="PS_Fgen_SW.Views.MainWindow"
+﻿<hc:Window x:Class="PS_Fgen_SW.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:PS_Fgen_SW.Views"
         xmlns:mvvmlight="http://www.galasoft.ch/mvvmlight"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
@@ -16,7 +17,7 @@
             <mvvmlight:EventToCommand Command="{Binding WindowClosing}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{Binding StatusStr}"/>
         <StackPanel Orientation="Horizontal">
@@ -31,12 +32,21 @@
         </StackPanel>
         <TextBlock Text="{Binding Device.PS_Channel.MeasuredVoltage, StringFormat=Measured Voltage: {0} V}"/>
         <TextBlock Text="{Binding Device.PS_Channel.MeasuredCurrent, StringFormat=Measured Current: {0} A}"/>
-        <ToggleButton HorizontalAlignment="Left" Height="30" Margin="10" Content="{Binding Device.PS_Channel.Enabled}" IsChecked="{Binding Device.PS_Channel.Enabled, Mode=TwoWay}" BorderThickness="0" Background="Red"/>
-        
+        <ToggleButton Width="40" Height="Auto" HorizontalAlignment="Left" Margin="10" IsChecked="{Binding Device.PS_Channel.Enabled, Mode=TwoWay}" BorderThickness="0" Style="{StaticResource ToggleButtonFlip}">
+            <hc:StatusSwitchElement.CheckedElement>
+                <Border Background="{DynamicResource SuccessBrush}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="On" Foreground="{DynamicResource TextIconBrush}"/>
+                </Border>
+            </hc:StatusSwitchElement.CheckedElement>
+            <Border Background="{DynamicResource DangerBrush}">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Off" Foreground="{DynamicResource TextIconBrush}"/>
+            </Border>
+        </ToggleButton>
+
         <!--******************************************************************************************************************************************************-->
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="OVP State:"/>
-            <CheckBox IsChecked="{Binding Device.PS_Channel.OvpState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
+            <ToggleButton IsChecked="{Binding Device.PS_Channel.OvpState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50" Style="{StaticResource ToggleButtonSwitch}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="OVP Level:"/>
@@ -55,7 +65,7 @@
         <!--******************************************************************************************************************************************************-->
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="OCP State:"/>
-            <CheckBox IsChecked="{Binding Device.PS_Channel.OcpState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
+            <ToggleButton IsChecked="{Binding Device.PS_Channel.OcpState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50" Style="{StaticResource ToggleButtonSwitch}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="OCP Level:"/>
@@ -74,7 +84,7 @@
         <!--******************************************************************************************************************************************************-->
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="OPP State:"/>
-            <CheckBox IsChecked="{Binding Device.PS_Channel.OppState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
+            <ToggleButton IsChecked="{Binding Device.PS_Channel.OppState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50" Style="{StaticResource ToggleButtonSwitch}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="OPP Level:"/>
@@ -91,8 +101,8 @@
             <CheckBox IsChecked="{Binding Device.PS_Channel.OppTripped, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="10,0,10,0" MinWidth="50"/>
         </StackPanel>
         <!--******************************************************************************************************************************************************-->
-        <Button Height="30" Margin="10" Content="Clear PS Channel Protections" Command="{Binding Device.PS_Channel.ClearProtections}"/>
+        <Button Height="30" Margin="10" HorizontalAlignment="Left" Content="Clear PS Channel Protections" Command="{Binding Device.PS_Channel.ClearProtections}" Style="{StaticResource ButtonPrimary}"/>
 
-        <Button Height="30" Margin="10" Content="Write to device" Command="{Binding WriteToDeviceCommand}"/>
+        <Button Height="30" Margin="10" HorizontalAlignment="Left" Content="Write to device" Command="{Binding WriteToDeviceCommand}" Style="{StaticResource ButtonPrimary}"/>
     </StackPanel>
-</Window>
+</hc:Window>

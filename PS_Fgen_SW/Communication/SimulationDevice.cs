@@ -56,7 +56,7 @@ namespace PS_Fgen_SW.Communication
             string command = messageParts.FirstOrDefault();
             Random rand = new Random();
 
-            System.Threading.Thread.Sleep(100);
+            //System.Threading.Thread.Sleep(100);
 
             try
             {

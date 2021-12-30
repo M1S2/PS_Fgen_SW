@@ -6,10 +6,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              d1p1:Ignorable="d" 
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:vm="clr-namespace:PS_Fgen_SW.ViewModel">
+             xmlns:vm="clr-namespace:PS_Fgen_SW.ViewModel"
+             xmlns:hc="https://handyorg.github.io/handycontrol">
   <Application.Resources>
     <ResourceDictionary>
-      <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+            <ResourceDictionary.MergedDictionaries>
+                <hc:Theme Name="HandyTheme" Skin="Dark" AccentColor="DodgerBlue"/>
+        </ResourceDictionary.MergedDictionaries>
+        
+        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
     </ResourceDictionary>
   </Application.Resources>
 </Application>
