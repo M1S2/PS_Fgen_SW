@@ -18,6 +18,11 @@ namespace PS_Fgen_SW.Model
         /// </summary>
         public Comm CommIF { get; set; }
 
+        /// <summary>
+        /// Response of the *IDN? query
+        /// </summary>
+        public string IDN { get; private set; }
+
         private PsChannelModel _ps_Channel;
         /// <summary>
         /// Power supply channel of the device
@@ -32,6 +37,9 @@ namespace PS_Fgen_SW.Model
         {
             CommIF = commIF;
             PS_Channel = new PsChannelModel(0, commIF);
+
+            CommIF?.Write("*IDN?");
+            IDN = CommIF?.ReadLine() ?? "";
         }
     }
 }

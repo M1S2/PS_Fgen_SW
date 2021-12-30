@@ -56,12 +56,16 @@ namespace PS_Fgen_SW.Communication
             string command = messageParts.FirstOrDefault();
             Random rand = new Random();
 
-            System.Threading.Thread.Sleep(100);
+            //System.Threading.Thread.Sleep(100);
 
             try
             {
                 switch (command.ToUpper())
                 {
+                    case "*IDN?":
+                        returnVal = "Markus Scheich,PS_Fgen,01,v0.0.0 Simulator";
+                        break;
+                    /*******************************************************************************************************************/
                     case "SYST:REM":
                         // Nothing to return
                         break;
