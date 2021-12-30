@@ -24,6 +24,9 @@ namespace PS_Fgen_SW.Model
         public Comm CommIF { get; set; }
 
         private float _channelNumber;
+        /// <summary>
+        /// Index of the channel.
+        /// </summary>
         public float ChannelNumber
         {
             get => _channelNumber;

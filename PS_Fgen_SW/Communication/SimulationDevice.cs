@@ -35,6 +35,18 @@ namespace PS_Fgen_SW.Communication
         private float _psChannel_OppDelay;
         private bool _psChannel_OppTripped;
 
+        private bool _dds1Channel_Enabled;
+        private float _dds1Channel_Frequency;
+        private float _dds1Channel_Amplitude;
+        private float _dds1Channel_Offset;
+        private SignalForms _dds1Channel_SignalForm;
+
+        private bool _dds2Channel_Enabled;
+        private float _dds2Channel_Frequency;
+        private float _dds2Channel_Amplitude;
+        private float _dds2Channel_Offset;
+        private SignalForms _dds2Channel_SignalForm;
+
         /// <summary>
         /// Constructor of the simulation device
         /// </summary>
@@ -202,6 +214,78 @@ namespace PS_Fgen_SW.Communication
                         break;
                     case "SOUR0:POW:PROT:CLE":
                         _psChannel_OppTripped = false;
+                        break;
+                    /*******************************************************************************************************************/
+                    case "OUTP1":
+                        _dds1Channel_Enabled = (messageParts[1] == "1" || messageParts[1].ToUpper() == "ON") ? true : false;
+                        // Nothing to return
+                        break;
+                    case "OUTP1?":
+                        returnVal = _dds1Channel_Enabled ? "1" : "0";
+                        break;
+                    case "SOUR1:FREQ":
+                        _dds1Channel_Frequency = float.Parse(messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR1:FREQ?":
+                        returnVal = _dds1Channel_Frequency.ToString(ScientificNumberFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "SOUR1:VOLT":
+                        _dds1Channel_Amplitude = float.Parse(messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR1:VOLT?":
+                        returnVal = _dds1Channel_Amplitude.ToString(ScientificNumberFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "SOUR1:VOLT:OFFS":
+                        _dds1Channel_Offset = float.Parse(messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR1:VOLT:OFFS?":
+                        returnVal = _dds1Channel_Offset.ToString(ScientificNumberFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "SOUR1:FUNC":
+                        _dds1Channel_SignalForm = (SignalForms)Enum.Parse(typeof(SignalForms), messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR1:FUNC?":
+                        returnVal = _dds1Channel_SignalForm.ToString();
+                        break;
+                    /*******************************************************************************************************************/
+                    case "OUTP2":
+                        _dds2Channel_Enabled = (messageParts[1] == "1" || messageParts[1].ToUpper() == "ON") ? true : false;
+                        // Nothing to return
+                        break;
+                    case "OUTP2?":
+                        returnVal = _dds2Channel_Enabled ? "1" : "0";
+                        break;
+                    case "SOUR2:FREQ":
+                        _dds2Channel_Frequency = float.Parse(messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR2:FREQ?":
+                        returnVal = _dds2Channel_Frequency.ToString(ScientificNumberFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "SOUR2:VOLT":
+                        _dds2Channel_Amplitude = float.Parse(messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR2:VOLT?":
+                        returnVal = _dds2Channel_Amplitude.ToString(ScientificNumberFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "SOUR2:VOLT:OFFS":
+                        _dds2Channel_Offset = float.Parse(messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR2:VOLT:OFFS?":
+                        returnVal = _dds2Channel_Offset.ToString(ScientificNumberFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "SOUR2:FUNC":
+                        _dds2Channel_SignalForm = (SignalForms)Enum.Parse(typeof(SignalForms), messageParts[1]);
+                        // Nothing to return
+                        break;
+                    case "SOUR2:FUNC?":
+                        returnVal = _dds2Channel_SignalForm.ToString();
                         break;
                     /*******************************************************************************************************************/
                     default:

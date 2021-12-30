@@ -74,6 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\DdsChannelModel.cs" />
     <Compile Include="Model\PsChannelModel.cs" />
     <Compile Include="Communication\SimulationDevice.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
