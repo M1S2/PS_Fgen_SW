@@ -78,10 +78,10 @@ namespace PS_Fgen_SW.ViewModel
         public MainViewModel()
         {
             //Comm = new CommSim(false);
-            Comm = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-            Comm.Open();
+            //Comm = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            //Comm.Open();
             
-            Device = new DeviceModel(Comm);
+            //Device = new DeviceModel(Comm);
             StatusStr = "Ready";
 
             _measureTimer.Interval = new TimeSpan(0, 0, 1);

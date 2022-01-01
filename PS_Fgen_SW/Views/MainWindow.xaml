@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:local="clr-namespace:PS_Fgen_SW.Views"
+        xmlns:view="clr-namespace:PS_Fgen_SW.Views"
         xmlns:model="clr-namespace:PS_Fgen_SW.Model"
         xmlns:mvvmlight="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
@@ -111,52 +111,10 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="DDS1 Channel">
-                <StackPanel Orientation="Vertical">
-                    <ToggleButton HorizontalAlignment="Left" Height="30" Margin="10" Content="{Binding Device.DD1_Channel.Enabled}" IsChecked="{Binding Device.DD1_Channel.Enabled, Mode=TwoWay}" BorderThickness="0" Background="Red"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Frequency:"/>
-                        <TextBox Text="{Binding Device.DD1_Channel.Frequency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="Hz" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Amplitude:"/>
-                        <TextBox Text="{Binding Device.DD1_Channel.Amplitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="V" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Offset:"/>
-                        <TextBox Text="{Binding Device.DD1_Channel.Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="V" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Signal Form:"/>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource SignalFormsValues}}" SelectedItem="{Binding Device.DD1_Channel.SignalForm}"/>
-                    </StackPanel>
-                </StackPanel>
+                <view:DdsChannelUserControl ViewModelName="DDS1"/>
             </TabItem>
             <TabItem Header="DDS2 Channel">
-                <StackPanel Orientation="Vertical">
-                    <ToggleButton HorizontalAlignment="Left" Height="30" Margin="10" Content="{Binding Device.DD2_Channel.Enabled}" IsChecked="{Binding Device.DD2_Channel.Enabled, Mode=TwoWay}" BorderThickness="0" Background="Red"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Frequency:"/>
-                        <TextBox Text="{Binding Device.DD2_Channel.Frequency, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="Hz" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Amplitude:"/>
-                        <TextBox Text="{Binding Device.DD2_Channel.Amplitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="V" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Offset:"/>
-                        <TextBox Text="{Binding Device.DD2_Channel.Offset, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="V" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Signal Form:"/>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource SignalFormsValues}}" SelectedItem="{Binding Device.DD2_Channel.SignalForm}" Margin="10,0,0,0"/>
-                    </StackPanel>
-                </StackPanel>
+                <view:DdsChannelUserControl ViewModelName="DDS2"/>
             </TabItem>
         </TabControl>
         

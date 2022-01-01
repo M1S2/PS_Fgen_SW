@@ -15,6 +15,8 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using CommonServiceLocator;
+using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Model;
 
 namespace PS_Fgen_SW.ViewModel
 {
@@ -24,6 +26,12 @@ namespace PS_Fgen_SW.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        public Comm CommIF { get; set; }
+        public DeviceModel DevModel { get; set; }
+        public MainViewModel MainViewModelObj { get; set; }
+        public DdsChannelViewModel Dds1ViewModelObj { get; set; }
+        public DdsChannelViewModel Dds2ViewModelObj { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -31,18 +39,33 @@ namespace PS_Fgen_SW.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                // Create design time view services and models
+                //SimpleIoc.Default.Register<IDataService, DesignDataService>();
+            }
+            else
+            {
+                // Create run time view services and models
+                //SimpleIoc.Default.Register<IDataService, DataService>();
+            }
 
-            SimpleIoc.Default.Register<MainViewModel>();
+            CommIF = new CommSim(false);
+            //CommIF = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            CommIF.Open();
+
+            DevModel = new DeviceModel(CommIF);
+
+            MainViewModelObj = new MainViewModel();
+            MainViewModelObj.Comm = CommIF;
+            MainViewModelObj.Device = DevModel;
+
+            Dds1ViewModelObj = new DdsChannelViewModel(DevModel.DD1_Channel);
+            Dds2ViewModelObj = new DdsChannelViewModel(DevModel.DD2_Channel);
+
+            SimpleIoc.Default.Register(() => MainViewModelObj);
+            SimpleIoc.Default.Register(() => Dds1ViewModelObj, "DDS1");
+            SimpleIoc.Default.Register(() => Dds2ViewModelObj, "DDS2");
         }
 
         public MainViewModel Main
@@ -52,7 +75,23 @@ namespace PS_Fgen_SW.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
+        public DdsChannelViewModel DDS1
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS1");
+            }
+        }
+
+        public DdsChannelViewModel DDS2
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS2");
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

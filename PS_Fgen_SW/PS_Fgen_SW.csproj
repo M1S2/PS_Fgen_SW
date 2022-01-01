@@ -77,8 +77,12 @@
     <Compile Include="Model\DdsChannelModel.cs" />
     <Compile Include="Model\PsChannelModel.cs" />
     <Compile Include="Communication\SimulationDevice.cs" />
+    <Compile Include="ViewModel\DdsChannelViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\DdsChannelUserControl.xaml.cs">
+      <DependentUpon>DdsChannelUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +119,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DdsChannelUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
