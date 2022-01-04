@@ -7,40 +7,28 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Interfaces;
+using PS_Fgen_SW.Enumerations;
 
 namespace PS_Fgen_SW.Model
 {
     /// <summary>
-    /// Signal forms enumeration
-    /// </summary>
-    public enum SignalForms
-    {
-        SINusoid,       // Sine wave type
-        SQUare,         // Rectange wave type
-        TRIangle,       // Triangle wave type
-        SAWtooth,       // Sawtooth wave type
-        DC,             // Direct current wave type
-        USER            // User defined wave type (signal is held in the UserWaveTable of the DDS_Channel)
-    }
-
-    /// <summary>
     /// Class representing a direct digital synthesis channel of the PS_Fgen device.
     /// </summary>
-    public class DdsChannelModel : ObservableObject
+    public class DdsChannelModel : ObservableObject, IDdsChannelModel
     {
         private NumberFormatInfo nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
 
         /// <summary>
         /// Interface used to communicate to the device
         /// </summary>
-        public Comm CommIF { get; set; }
+        public IComm CommIF { get; set; }
 
-        private float _channelNumber;
+        private int _channelNumber;
         /// <summary>
         /// Index of the channel.
         /// </summary>
-        public float ChannelNumber
+        public int ChannelNumber
         {
             get => _channelNumber;
             set { Set(ref _channelNumber, value); }
@@ -187,7 +175,7 @@ namespace PS_Fgen_SW.Model
         /// </summary>
         /// <param name="channelNumber">Channel index. This is the number used in the SCPI commands for channel identification</param>
         /// <param name="commIF">Communication interface used for communication to the device</param>
-        public DdsChannelModel(int channelNumber, Comm commIF)
+        public DdsChannelModel(int channelNumber, IComm commIF)
         {
             CommIF = commIF;
             ChannelNumber = channelNumber;

@@ -4,15 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
+using PS_Fgen_SW.Interfaces;
 
 namespace PS_Fgen_SW.Communication
 {
     /// <summary>
     /// Class used to communicate via the serial port
     /// </summary>
-    public class CommSerial : Comm
-    { 
+    public class CommSerial : IComm
+    {
+        /// <summary>
+        /// Line Ending used when writing
+        /// </summary>
+        public static string LineEnding = "\r\n";
+
         private SerialPort _comPort;            // Serial port used for communication
+        private string _lastCommand;                    // Last command string that was written over the communication interface
+
+        /// <summary>
+        /// Is the communication channel connected or not
+        /// </summary>
+        public bool Connected { get; set; }
 
         /// <summary>
         /// Constructor of the serial communication port
@@ -29,26 +41,37 @@ namespace PS_Fgen_SW.Communication
         }
 
         /// <summary>
-        /// Open the serial communication port
+        /// Connect to the serial communication port
         /// </summary>
-        public override void Open() => _comPort?.Open();
+        public void Connect()
+        {
+            _comPort?.Open();
+            Connected = true;
+        }
 
         /// <summary>
-        /// Close the serial communication port
+        /// Disconnect from the serial communication port
         /// </summary>
-        public override void Close() => _comPort?.Close();
+        public void Disconnect()
+        {
+            _comPort?.Close();
+            Connected = false;
+        }
 
         /// <summary>
         /// Write to the serial communication port
         /// </summary>
         /// <param name="message">message string to write (without the LineEnding, is appended automatically)</param>
-        public override void Write(string message)
+        public void Write(string message)
         {
-            string[] messageParts = message.Split(' ');
-            string command = messageParts.FirstOrDefault();
-            _lastCommand = command;
+            if (Connected)
+            {
+                string[] messageParts = message.Split(' ');
+                string command = messageParts.FirstOrDefault();
+                _lastCommand = command;
 
-            _comPort.Write(message + LineEnding);
+                _comPort.Write(message + LineEnding);
+            }
         }
 
         /// <summary>
@@ -56,10 +79,14 @@ namespace PS_Fgen_SW.Communication
         /// This method removed the previously written command from the response (needed if serial echo is enabled).
         /// </summary>
         /// <returns>Read string</returns>
-        public override string ReadLine()
+        public string ReadLine()
         {
-            string readString = _comPort.ReadLine();
-            return readString.Replace(_lastCommand, "").Trim(LineEnding.ToCharArray()).Trim(' ');
+            if (Connected)
+            {
+                string readString = _comPort.ReadLine();
+                return readString.Replace(_lastCommand, "").Trim(LineEnding.ToCharArray()).Trim(' ');
+            }
+            return "";
         }
     }
 }

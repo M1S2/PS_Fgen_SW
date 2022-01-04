@@ -7,27 +7,27 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Interfaces;
 
 namespace PS_Fgen_SW.Model
 {
     /// <summary>
     /// Class representing a power supply channel of the PS_Fgen device.
     /// </summary>
-    public class PsChannelModel : ObservableObject
+    public class PsChannelModel : ObservableObject, IPsChannelModel
     {
         private NumberFormatInfo nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
 
         /// <summary>
         /// Interface used to communicate to the device
         /// </summary>
-        public Comm CommIF { get; set; }
+        public IComm CommIF { get; set; }
 
-        private float _channelNumber;
+        private int _channelNumber;
         /// <summary>
         /// Index of the channel.
         /// </summary>
-        public float ChannelNumber
+        public int ChannelNumber
         {
             get => _channelNumber;
             set { Set(ref _channelNumber, value); }
@@ -453,6 +453,18 @@ namespace PS_Fgen_SW.Model
             dummyRead = CommIF?.ReadLine();     // Dummy read to get echoed data
         });
 
+        /// <summary>
+        /// Update all measured parameters.
+        /// </summary>
+        public ICommand UpdateMeasuredParameters => new RelayCommand(() =>
+        {
+            RaisePropertyChanged(nameof(MeasuredVoltage));
+            RaisePropertyChanged(nameof(MeasuredCurrent));
+            RaisePropertyChanged(nameof(OvpTripped));
+            RaisePropertyChanged(nameof(OcpTripped));
+            RaisePropertyChanged(nameof(OppTripped));
+        });
+
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         /// <summary>
@@ -460,7 +472,7 @@ namespace PS_Fgen_SW.Model
         /// </summary>
         /// <param name="channelNumber">Channel index. This is the number used in the SCPI commands for channel identification</param>
         /// <param name="commIF">Communication interface used for communication to the device</param>
-        public PsChannelModel(int channelNumber, Comm commIF)
+        public PsChannelModel(int channelNumber, IComm commIF)
         {
             CommIF = commIF;
             ChannelNumber = channelNumber;

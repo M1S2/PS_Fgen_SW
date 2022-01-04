@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using PS_Fgen_SW.Model;
-using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Interfaces;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -22,21 +22,21 @@ namespace PS_Fgen_SW.ViewModel
     {
         DispatcherTimer _measureTimer = new DispatcherTimer();
 
-        private DeviceModel _device;
+        private IDeviceModel _device;
         /// <summary>
         /// Device Model of the PS_Fgen device.
         /// </summary>
-        public DeviceModel Device
+        public IDeviceModel Device
         {
             get => _device;
             set { Set(ref _device, value); }
         }
 
-        private Comm _comm;
+        private IComm _comm;
         /// <summary>
         /// Communication interface used for communication to the PS_Fgen device.
         /// </summary>
-        public Comm Comm
+        public IComm Comm
         {
             get => _comm;
             set { Set(ref _comm, value); }
@@ -68,20 +68,19 @@ namespace PS_Fgen_SW.ViewModel
             (args) =>
             {
                 _measureTimer.Stop();
-                Comm.Close();
+                Comm.Disconnect();
             }
         );
 
         /// <summary>
         /// Constructor for the MainViewModel.
         /// </summary>
-        public MainViewModel()
+        /// <param name="commIF">Communication interface</param>
+        /// <param name="deviceModel">Device model interface</param>
+        public MainViewModel(IComm commIF, IDeviceModel deviceModel)
         {
-            //Comm = new CommSim(false);
-            //Comm = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-            //Comm.Open();
-            
-            //Device = new DeviceModel(Comm);
+            Comm = commIF;
+            Device = deviceModel;
             StatusStr = "Ready";
 
             _measureTimer.Interval = new TimeSpan(0, 0, 1);
@@ -95,11 +94,7 @@ namespace PS_Fgen_SW.ViewModel
         private void _measureTimer_Tick(object sender, EventArgs e)
         {
             StatusStr = "Update GUI...";
-            Device.PS_Channel.RaisePropertyChanged(nameof(Device.PS_Channel.MeasuredVoltage));
-            Device.PS_Channel.RaisePropertyChanged(nameof(Device.PS_Channel.MeasuredCurrent));
-            Device.PS_Channel.RaisePropertyChanged(nameof(Device.PS_Channel.OvpTripped));
-            Device.PS_Channel.RaisePropertyChanged(nameof(Device.PS_Channel.OcpTripped));
-            Device.PS_Channel.RaisePropertyChanged(nameof(Device.PS_Channel.OppTripped));
+            Device?.PS_Channel?.UpdateMeasuredParameters?.Execute(null);
             StatusStr = "Ready";
         }
 

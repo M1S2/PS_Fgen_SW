@@ -11,19 +11,19 @@ using CommonServiceLocator;
 
 namespace PS_Fgen_SW.ViewModel
 {
-    public class DdsChannelViewModel : ViewModelBase
+    public class PsChannelViewModel : ViewModelBase
     {
-        private IDdsChannelModel _ddsModel;
-        public IDdsChannelModel DdsModel
+        private IPsChannelModel _psModel;
+        public IPsChannelModel PsModel
         {
-            get => _ddsModel;
-            set { Set(ref _ddsModel, value); }
+            get => _psModel;
+            set { Set(ref _psModel, value); }
         }
 
-        public DdsChannelViewModel(int instanceNumber)
+        public PsChannelViewModel()
         {
             IDeviceModel devModel = ServiceLocator.Current.GetInstance<IDeviceModel>();
-            DdsModel = instanceNumber == 1 ? devModel.DD1_Channel : devModel.DD2_Channel;
+            PsModel = devModel.PS_Channel;
         }
 
     }

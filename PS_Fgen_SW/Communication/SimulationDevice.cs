@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PS_Fgen_SW.Model;
+using PS_Fgen_SW.Enumerations;
 
 namespace PS_Fgen_SW.Communication
 {
@@ -64,7 +65,7 @@ namespace PS_Fgen_SW.Communication
         public string ProcessData(string message)
         {
             string returnVal = _commEcho ? message : "";
-            string[] messageParts = message.Trim(Comm.LineEnding.ToCharArray()).Split(' ');
+            string[] messageParts = message.Trim(CommSim.LineEnding.ToCharArray()).Split(' ');
             string command = messageParts.FirstOrDefault();
             Random rand = new Random();
 
@@ -299,7 +300,7 @@ namespace PS_Fgen_SW.Communication
             {
                 throw ex;
             }
-            return returnVal + Comm.LineEnding;
+            return returnVal + CommSim.LineEnding;
         }
     }
 }

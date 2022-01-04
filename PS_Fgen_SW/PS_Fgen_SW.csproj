@@ -74,12 +74,28 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enumerations\SignalForms.cs" />
+    <Compile Include="Interfaces\IDdsChannelModel.cs" />
+    <Compile Include="Interfaces\IDeviceModel.cs" />
+    <Compile Include="Interfaces\IComm.cs" />
+    <Compile Include="Interfaces\IPsChannelModel.cs" />
+    <Compile Include="Model\CommModel.cs" />
     <Compile Include="Model\DdsChannelModel.cs" />
     <Compile Include="Model\PsChannelModel.cs" />
     <Compile Include="Communication\SimulationDevice.cs" />
+    <Compile Include="ViewModel\CommViewModel.cs" />
+    <Compile Include="ViewModel\PsChannelViewModel.cs" />
     <Compile Include="ViewModel\DdsChannelViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\CommUserControl.xaml.cs">
+      <DependentUpon>CommUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Converters\CommConnectedToColorConverter.cs" />
+    <Compile Include="Views\Converters\CommConnectedToTextConverter.cs" />
+    <Compile Include="Views\PsChannelUserControl.xaml.cs">
+      <DependentUpon>PsChannelUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DdsChannelUserControl.xaml.cs">
       <DependentUpon>DdsChannelUserControl.xaml</DependentUpon>
     </Compile>
@@ -90,7 +106,6 @@
   <ItemGroup>
     <Compile Include="Communication\CommSerial.cs" />
     <Compile Include="Communication\CommSim.cs" />
-    <Compile Include="Communication\Comm.cs" />
     <Compile Include="Model\DeviceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -119,6 +134,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\CommUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PsChannelUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DdsChannelUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -35,14 +35,14 @@ namespace PS_Fgen_SW.Views
         private static void OnViewModelNameChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             DdsChannelUserControl c = sender as DdsChannelUserControl;
-            c.DataContext = ((string)e.NewValue == "DDS1" ? c.locator.DDS1 : c.locator.DDS2);
+            c.DataContext = ((string)e.NewValue == "DDS1" ? c.locator.DDS1VM : c.locator.DDS2VM);
         }
 
         public DdsChannelUserControl()
         {
             InitializeComponent();
             locator = Application.Current.Resources["Locator"] as ViewModelLocator;
-            this.DataContext = ViewModelName == "DDS1" ? locator.DDS1 : locator.DDS2;
+            this.DataContext = ViewModelName == "DDS1" ? locator.DDS1VM : locator.DDS2VM;
         }
     }
 }

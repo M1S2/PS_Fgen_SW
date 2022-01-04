@@ -6,50 +6,50 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Interfaces;
 
 namespace PS_Fgen_SW.Model
 {
     /// <summary>
     /// Class representing the PS_Fgen device.
     /// </summary>
-    public class DeviceModel : ObservableObject
+    public class DeviceModel : ObservableObject, IDeviceModel
     {
         /// <summary>
         /// Interface used to communicate to the device
         /// </summary>
-        public Comm CommIF { get; set; }
+        public IComm CommIF { get; set; }
 
         /// <summary>
         /// Response of the *IDN? query
         /// </summary>
         public string IDN { get; private set; }
 
-        private PsChannelModel _ps_Channel;
+        private IPsChannelModel _ps_Channel;
         /// <summary>
         /// Power supply channel of the device
         /// </summary>
-        public PsChannelModel PS_Channel
+        public IPsChannelModel PS_Channel
         {
             get => _ps_Channel;
             set { Set(ref _ps_Channel, value); }
         }
 
-        private DdsChannelModel _dds1_Channel;
+        private IDdsChannelModel _dds1_Channel;
         /// <summary>
         /// DDS1 channel of the device
         /// </summary>
-        public DdsChannelModel DD1_Channel
+        public IDdsChannelModel DD1_Channel
         {
             get => _dds1_Channel;
             set { Set(ref _dds1_Channel, value); }
         }
 
-        private DdsChannelModel _dds2_Channel;
+        private IDdsChannelModel _dds2_Channel;
         /// <summary>
         /// DDS2 channel of the device
         /// </summary>
-        public DdsChannelModel DD2_Channel
+        public IDdsChannelModel DD2_Channel
         {
             get => _dds2_Channel;
             set { Set(ref _dds2_Channel, value); }
@@ -68,7 +68,7 @@ namespace PS_Fgen_SW.Model
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        public DeviceModel(Comm commIF)
+        public DeviceModel(IComm commIF)
         {
             CommIF = commIF;
             PS_Channel = new PsChannelModel(0, commIF);

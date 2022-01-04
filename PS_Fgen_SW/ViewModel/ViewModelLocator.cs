@@ -15,8 +15,9 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using CommonServiceLocator;
-using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Interfaces;
 using PS_Fgen_SW.Model;
+using PS_Fgen_SW.Communication;
 
 namespace PS_Fgen_SW.ViewModel
 {
@@ -26,7 +27,7 @@ namespace PS_Fgen_SW.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        public Comm CommIF { get; set; }
+        public CommSim CommIF { get; set; }
         public DeviceModel DevModel { get; set; }
         public MainViewModel MainViewModelObj { get; set; }
         public DdsChannelViewModel Dds1ViewModelObj { get; set; }
@@ -50,47 +51,21 @@ namespace PS_Fgen_SW.ViewModel
                 //SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
-            CommIF = new CommSim(false);
-            //CommIF = new CommSerial("COM10", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-            CommIF.Open();
+            SimpleIoc.Default.Register<IComm, CommModel>();
+            SimpleIoc.Default.Register<IDeviceModel, DeviceModel>();
 
-            DevModel = new DeviceModel(CommIF);
-
-            MainViewModelObj = new MainViewModel();
-            MainViewModelObj.Comm = CommIF;
-            MainViewModelObj.Device = DevModel;
-
-            Dds1ViewModelObj = new DdsChannelViewModel(DevModel.DD1_Channel);
-            Dds2ViewModelObj = new DdsChannelViewModel(DevModel.DD2_Channel);
-
-            SimpleIoc.Default.Register(() => MainViewModelObj);
-            SimpleIoc.Default.Register(() => Dds1ViewModelObj, "DDS1");
-            SimpleIoc.Default.Register(() => Dds2ViewModelObj, "DDS2");
+            SimpleIoc.Default.Register<CommViewModel>();
+            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<PsChannelViewModel>();
+            SimpleIoc.Default.Register(() => new DdsChannelViewModel(1), "DDS1");
+            SimpleIoc.Default.Register(() => new DdsChannelViewModel(2), "DDS2");
         }
 
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
-
-        public DdsChannelViewModel DDS1
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS1");
-            }
-        }
-
-        public DdsChannelViewModel DDS2
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS2");
-            }
-        }
+        public MainViewModel MainVM => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public PsChannelViewModel PSVM => ServiceLocator.Current.GetInstance<PsChannelViewModel>();
+        public DdsChannelViewModel DDS1VM => ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS1");
+        public DdsChannelViewModel DDS2VM => ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS2");
+        public CommViewModel CommVM => ServiceLocator.Current.GetInstance<CommViewModel>();
 
         public static void Cleanup()
         {

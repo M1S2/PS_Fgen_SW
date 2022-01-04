@@ -9,8 +9,8 @@
         xmlns:model="clr-namespace:PS_Fgen_SW.Model"
         xmlns:mvvmlight="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        Title="PS_Fgen_SW" Height="600" Width="800"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        Title="PS_Fgen_SW" Height="650" Width="800"
+        DataContext="{Binding Source={StaticResource Locator}, Path=MainVM}">
 
     <!-- Trigger the WindowClosing command if the window is closing, see http://heyyan.com/blog/closingeventmvvmlighttoolkit/ -->
     <i:Interaction.Triggers>
@@ -19,96 +19,15 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Window.Resources>
-        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="SignalFormsValues">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="model:SignalForms" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </Window.Resources>
-
     <StackPanel Orientation="Vertical">
+        <view:CommUserControl Margin="10"/>
         <TextBlock Text="{Binding Device.IDN, StringFormat=IDN:  {0}}"/>
         <TextBlock Text="{Binding StatusStr}"/>
         <Button Height="30" Margin="10" Content="Save Settings" Command="{Binding Device.SaveSettings}"/>
 
         <TabControl Height="400">
             <TabItem Header="PS Channel">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Voltage:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.Voltage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="V" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Current:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.Current, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="A" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <TextBlock Text="{Binding Device.PS_Channel.MeasuredVoltage, StringFormat=Measured Voltage: {0} V}"/>
-                    <TextBlock Text="{Binding Device.PS_Channel.MeasuredCurrent, StringFormat=Measured Current: {0} A}"/>
-                    <ToggleButton HorizontalAlignment="Left" Height="30" Margin="10" Content="{Binding Device.PS_Channel.Enabled}" IsChecked="{Binding Device.PS_Channel.Enabled, Mode=TwoWay}" BorderThickness="0" Background="Red"/>
-
-                    <!--******************************************************************************************************************************************************-->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OVP State:"/>
-                        <CheckBox IsChecked="{Binding Device.PS_Channel.OvpState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OVP Level:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.OvpLevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="%" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OVP Delay:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.OvpDelay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="s" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OVP Tripped:"/>
-                        <CheckBox IsChecked="{Binding Device.PS_Channel.OvpTripped, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="10,0,10,0" MinWidth="50"/>
-                    </StackPanel>
-                    <!--******************************************************************************************************************************************************-->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OCP State:"/>
-                        <CheckBox IsChecked="{Binding Device.PS_Channel.OcpState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OCP Level:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.OcpLevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="%" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OCP Delay:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.OcpDelay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="s" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OCP Tripped:"/>
-                        <CheckBox IsChecked="{Binding Device.PS_Channel.OcpTripped, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="10,0,10,0" MinWidth="50"/>
-                    </StackPanel>
-                    <!--******************************************************************************************************************************************************-->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OPP State:"/>
-                        <CheckBox IsChecked="{Binding Device.PS_Channel.OppState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OPP Level:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.OppLevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="W" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OPP Delay:"/>
-                        <TextBox Text="{Binding Device.PS_Channel.OppDelay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" MinWidth="50"/>
-                        <TextBlock Text="s" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OPP Tripped:"/>
-                        <CheckBox IsChecked="{Binding Device.PS_Channel.OppTripped, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="10,0,10,0" MinWidth="50"/>
-                    </StackPanel>
-                    <!--******************************************************************************************************************************************************-->
-                    <Button Height="30" Margin="10" Content="Clear PS Channel Protections" Command="{Binding Device.PS_Channel.ClearProtections}"/>
-                </StackPanel>
+                <view:PsChannelUserControl/>
             </TabItem>
             <TabItem Header="DDS1 Channel">
                 <view:DdsChannelUserControl ViewModelName="DDS1"/>
@@ -117,9 +36,7 @@
                 <view:DdsChannelUserControl ViewModelName="DDS2"/>
             </TabItem>
         </TabControl>
-        
-        
-        
+
         <Button Height="30" Margin="10" Content="Write to device" Command="{Binding WriteToDeviceCommand}"/>
     </StackPanel>
 </Window>
