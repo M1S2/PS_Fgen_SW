@@ -84,6 +84,7 @@
     <Compile Include="Model\PsChannelModel.cs" />
     <Compile Include="Communication\SimulationDevice.cs" />
     <Compile Include="ViewModel\CommViewModel.cs" />
+    <Compile Include="ViewModel\DeviceViewModel.cs" />
     <Compile Include="ViewModel\PsChannelViewModel.cs" />
     <Compile Include="ViewModel\DdsChannelViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -93,6 +94,9 @@
     </Compile>
     <Compile Include="Views\Converters\CommConnectedToColorConverter.cs" />
     <Compile Include="Views\Converters\CommConnectedToTextConverter.cs" />
+    <Compile Include="Views\DeviceUserControl.xaml.cs">
+      <DependentUpon>DeviceUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PsChannelUserControl.xaml.cs">
       <DependentUpon>PsChannelUserControl.xaml</DependentUpon>
     </Compile>
@@ -137,6 +141,10 @@
     <Page Include="Views\CommUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PsChannelUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -59,6 +59,7 @@ namespace PS_Fgen_SW.ViewModel
             SimpleIoc.Default.Register<PsChannelViewModel>();
             SimpleIoc.Default.Register(() => new DdsChannelViewModel(1), "DDS1");
             SimpleIoc.Default.Register(() => new DdsChannelViewModel(2), "DDS2");
+            SimpleIoc.Default.Register<DeviceViewModel>();
         }
 
         public MainViewModel MainVM => ServiceLocator.Current.GetInstance<MainViewModel>();
@@ -66,6 +67,7 @@ namespace PS_Fgen_SW.ViewModel
         public DdsChannelViewModel DDS1VM => ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS1");
         public DdsChannelViewModel DDS2VM => ServiceLocator.Current.GetInstance<DdsChannelViewModel>("DDS2");
         public CommViewModel CommVM => ServiceLocator.Current.GetInstance<CommViewModel>();
+        public DeviceViewModel DeviceVM => ServiceLocator.Current.GetInstance<DeviceViewModel>();
 
         public static void Cleanup()
         {

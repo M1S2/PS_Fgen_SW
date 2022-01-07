@@ -20,9 +20,8 @@ namespace PS_Fgen_SW.ViewModel
             set { Set(ref _psModel, value); }
         }
 
-        public PsChannelViewModel()
+        public PsChannelViewModel(IDeviceModel devModel)
         {
-            IDeviceModel devModel = ServiceLocator.Current.GetInstance<IDeviceModel>();
             PsModel = devModel.PS_Channel;
         }
 

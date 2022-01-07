@@ -21,22 +21,6 @@
 
     <StackPanel Orientation="Vertical">
         <view:CommUserControl Margin="10"/>
-        <TextBlock Text="{Binding Device.IDN, StringFormat=IDN:  {0}}"/>
-        <TextBlock Text="{Binding StatusStr}"/>
-        <Button Height="30" Margin="10" Content="Save Settings" Command="{Binding Device.SaveSettings}"/>
-
-        <TabControl Height="400">
-            <TabItem Header="PS Channel">
-                <view:PsChannelUserControl/>
-            </TabItem>
-            <TabItem Header="DDS1 Channel">
-                <view:DdsChannelUserControl ViewModelName="DDS1"/>
-            </TabItem>
-            <TabItem Header="DDS2 Channel">
-                <view:DdsChannelUserControl ViewModelName="DDS2"/>
-            </TabItem>
-        </TabControl>
-
-        <Button Height="30" Margin="10" Content="Write to device" Command="{Binding WriteToDeviceCommand}"/>
+        <view:DeviceUserControl/>
     </StackPanel>
 </Window>
