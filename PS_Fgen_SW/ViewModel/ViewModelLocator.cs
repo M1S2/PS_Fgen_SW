@@ -27,12 +27,6 @@ namespace PS_Fgen_SW.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        public CommSim CommIF { get; set; }
-        public DeviceModel DevModel { get; set; }
-        public MainViewModel MainViewModelObj { get; set; }
-        public DdsChannelViewModel Dds1ViewModelObj { get; set; }
-        public DdsChannelViewModel Dds2ViewModelObj { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -51,7 +45,8 @@ namespace PS_Fgen_SW.ViewModel
                 //SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
-            SimpleIoc.Default.Register<IComm, CommModel>();
+            //SimpleIoc.Default.Register<IComm, CommModel>();
+            SimpleIoc.Default.Register<IComm>(() => new CommSim());
             SimpleIoc.Default.Register<IDeviceModel, DeviceModel>();
 
             SimpleIoc.Default.Register<CommViewModel>();

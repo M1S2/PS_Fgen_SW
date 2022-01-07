@@ -20,7 +20,14 @@
     </i:Interaction.Triggers>
 
     <StackPanel Orientation="Vertical">
-        <view:CommUserControl Margin="10"/>
-        <view:DeviceUserControl/>
+        <StackPanel Orientation="Horizontal">
+            <Button Margin="10" Command="{Binding ShowCommViewCommand}">CommVIEW</Button>
+            <Button Margin="10" Command="{Binding ShowDeviceViewCommand}">DeviceVIEW</Button>
+        </StackPanel>
+
+        <ContentControl Content="{Binding CurrentPageView}"/>
+
+        <!--<view:CommUserControl Margin="10"/>
+        <view:DeviceUserControl/>-->
     </StackPanel>
 </Window>

@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using PS_Fgen_SW.Interfaces;
+using GalaSoft.MvvmLight;
 
 namespace PS_Fgen_SW.Communication
 {
     /// <summary>
     /// Class used to communicate via the serial port
     /// </summary>
-    public class CommSerial : IComm
+    public class CommSerial : ObservableObject, IComm
     {
         /// <summary>
         /// Line Ending used when writing
@@ -21,10 +22,15 @@ namespace PS_Fgen_SW.Communication
         private SerialPort _comPort;            // Serial port used for communication
         private string _lastCommand;                    // Last command string that was written over the communication interface
 
+        private bool _connected;
         /// <summary>
         /// Is the communication channel connected or not
         /// </summary>
-        public bool Connected { get; set; }
+        public bool Connected
+        {
+            get => _connected;
+            set => Set(ref _connected, value);
+        }
 
         /// <summary>
         /// Constructor of the serial communication port
@@ -45,8 +51,15 @@ namespace PS_Fgen_SW.Communication
         /// </summary>
         public void Connect()
         {
-            _comPort?.Open();
-            Connected = true;
+            try
+            {
+                _comPort?.Open();
+                Connected = true;
+            }
+            catch (Exception)
+            {
+                Connected = false;
+            }
         }
 
         /// <summary>
@@ -54,8 +67,15 @@ namespace PS_Fgen_SW.Communication
         /// </summary>
         public void Disconnect()
         {
-            _comPort?.Close();
-            Connected = false;
+            try
+            {
+                _comPort?.Close();
+                Connected = false;
+            }
+            catch (Exception)
+            {
+                Connected = false;
+            }
         }
 
         /// <summary>
@@ -66,11 +86,18 @@ namespace PS_Fgen_SW.Communication
         {
             if (Connected)
             {
-                string[] messageParts = message.Split(' ');
-                string command = messageParts.FirstOrDefault();
-                _lastCommand = command;
+                try
+                {
+                    string[] messageParts = message.Split(' ');
+                    string command = messageParts.FirstOrDefault();
+                    _lastCommand = command;
 
-                _comPort.Write(message + LineEnding);
+                    _comPort?.Write(message + LineEnding);
+                }
+                catch (Exception)
+                {
+                    Connected = false;
+                }
             }
         }
 
@@ -83,8 +110,15 @@ namespace PS_Fgen_SW.Communication
         {
             if (Connected)
             {
-                string readString = _comPort.ReadLine();
-                return readString.Replace(_lastCommand, "").Trim(LineEnding.ToCharArray()).Trim(' ');
+                try
+                {
+                    string readString = _comPort?.ReadLine();
+                    return readString.Replace(_lastCommand, "").Trim(LineEnding.ToCharArray()).Trim(' ');
+                }
+                catch (Exception)
+                {
+                    Connected = false;
+                }
             }
             return "";
         }

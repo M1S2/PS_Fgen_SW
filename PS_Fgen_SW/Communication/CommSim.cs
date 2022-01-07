@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using PS_Fgen_SW.Interfaces;
 using PS_Fgen_SW.Model;
 
@@ -11,7 +12,7 @@ namespace PS_Fgen_SW.Communication
     /// <summary>
     /// Class used to simulate a communication interface. This can be used for testing without a device.
     /// </summary>
-    public class CommSim : IComm
+    public class CommSim : ObservableObject, IComm
     {
         /// <summary>
         /// Line Ending used when writing
@@ -22,10 +23,15 @@ namespace PS_Fgen_SW.Communication
         private string _simDeviceResponse;              // Response from the ProcessData method of the simulation device
         private string _lastCommand;                    // Last command string that was written over the communication interface
 
+        private bool _connected;
         /// <summary>
         /// Is the communication channel connected or not
         /// </summary>
-        public bool Connected { get; set; }
+        public bool Connected
+        {
+            get => _connected;
+            set => Set(ref _connected, value);
+        }
 
         /// <summary>
         /// Constructor of the simulation interface
@@ -60,11 +66,18 @@ namespace PS_Fgen_SW.Communication
         {
             if (Connected)
             {
-                string[] messageParts = message.Split(' ');
-                string command = messageParts.FirstOrDefault();
-                _lastCommand = command;
+                try
+                {
+                    string[] messageParts = message.Split(' ');
+                    string command = messageParts.FirstOrDefault();
+                    _lastCommand = command;
 
-                _simDeviceResponse = _simDevice.ProcessData(message + LineEnding);
+                    _simDeviceResponse = _simDevice.ProcessData(message + LineEnding);
+                }
+                catch (Exception)
+                {
+                    Connected = false;
+                }
             }
         }
 
@@ -76,8 +89,15 @@ namespace PS_Fgen_SW.Communication
         {
             if (Connected)
             {
-                string readString = _simDeviceResponse;
-                return readString.Replace(_lastCommand, "").Trim(LineEnding.ToCharArray()).Trim(' ');
+                try
+                {
+                    string readString = _simDeviceResponse;
+                    return readString.Replace(_lastCommand, "").Trim(LineEnding.ToCharArray()).Trim(' ');
+                }
+                catch (Exception)
+                {
+                    Connected = false;
+                }
             }
             return "0";
         }

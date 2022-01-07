@@ -13,14 +13,20 @@ namespace PS_Fgen_SW.Model
     /// </summary>
     public class CommModel : ObservableObject, IComm
     {
-        private bool _connected;
         /// <summary>
         /// Is the communication channel connected or not
         /// </summary>
         public bool Connected
         {
-            get => _connected;
-            set { Set(ref _connected, value); }
+            get => _commHandle.Connected;
+            set
+            {
+                if (_commHandle != null && _commHandle.Connected != value)
+                {
+                    _commHandle.Connected = value;
+                    RaisePropertyChanged(nameof(Connected));
+                }
+            }
         }
 
 
@@ -28,7 +34,6 @@ namespace PS_Fgen_SW.Model
 
         public CommModel()
         {
-            Connected = false;
             _commHandle = new Communication.CommSim();
             //_commHandle = new Communication.CommSerial("COM10");
         }

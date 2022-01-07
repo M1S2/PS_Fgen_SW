@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:PS_Fgen_SW.Views"
              xmlns:converters="clr-namespace:PS_Fgen_SW.Views.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="800"
+             d:DesignHeight="100" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=CommVM}">
 
     <UserControl.Resources>
         <converters:CommConnectedToTextConverter x:Key="ConnectedTextConverter"/>
         <converters:CommConnectedToColorConverter x:Key="ConnectedColorConverter"/>
     </UserControl.Resources>
-    
-    <StackPanel Orientation="Horizontal">
+
+    <Grid>
         <Button Height="30" Width="150" Content="{Binding CommModel.Connected, Converter={StaticResource ConnectedTextConverter}}" Background="{Binding CommModel.Connected, Converter={StaticResource ConnectedColorConverter}}" Command="{Binding ConnectDisconnectCommand}"/>
-    </StackPanel>
+    </Grid>
 </UserControl>
