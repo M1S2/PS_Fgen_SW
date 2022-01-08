@@ -22,67 +22,15 @@ namespace PS_Fgen_SW.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private List<UIElement> _pageViews;
-        /// <summary>
-        /// List with all available views
-        /// </summary>
-        public List<UIElement> PageViews
-        {
-            get
-            {
-                if (_pageViews == null) { _pageViews = new List<UIElement>(); }
-                return _pageViews;
-            }
-        }
-
-        private UIElement _currentPageView;
-        /// <summary>
-        /// Currently displayed view
-        /// </summary>
-        public UIElement CurrentPageView
-        {
-            get => _currentPageView;
-            set
-            {
-                _currentPageView = value;
-                RaisePropertyChanged(nameof(CurrentPageView));
-            }
-        }
-
-        /// <summary>
-        /// Change the displayed view to the requested view.
-        /// If the view doesn't exist in the list, it is added.
-        /// </summary>
-        /// <param name="view">View object to show</param>
-        private void ChangeView(UIElement view)
-        {
-            if (!PageViews.Contains(view))
-            {
-                PageViews.Add(view);
-            }
-            CurrentPageView = PageViews.FirstOrDefault(vm => vm == view);
-        }
-
-        /// <summary>
-        /// Show the communication view
-        /// </summary>
-        public void ShowCommView() => ChangeView(PageViews[0]);
-
         /// <summary>
         /// Command to show the communication view
         /// </summary>
-        public ICommand ShowCommViewCommand => new RelayCommand(() => ShowCommView());
-
-        /// <summary>
-        /// Show the device view
-        /// </summary>
-        public void ShowDeviceView() => ChangeView(PageViews[1]);
+        public ICommand ShowCommViewCommand => new RelayCommand(() => _navigationService.NavigateTo(ViewModelLocator.CommView));
 
         /// <summary>
         /// Command to show the device view
         /// </summary>
-        public ICommand ShowDeviceViewCommand => new RelayCommand(() => ShowDeviceView(), () => Comm.Connected);
-
+        public ICommand ShowDeviceViewCommand => new RelayCommand(() => _navigationService.NavigateTo(ViewModelLocator.DeviceView), () => Comm.Connected);
 
         private IComm _comm;
         /// <summary>
@@ -95,6 +43,17 @@ namespace PS_Fgen_SW.ViewModel
         }
 
         /// <summary>
+        /// Command executed when the window is loaded.
+        /// </summary>
+        public ICommand WindowLoaded => new RelayCommand<RoutedEventArgs>
+        (
+            (args) =>
+            {
+                _navigationService.NavigateTo(ViewModelLocator.CommView);
+            }
+        );
+
+        /// <summary>
         /// Command executed when the window is closing.
         /// </summary>
         public ICommand WindowClosing => new RelayCommand<CancelEventArgs>
@@ -105,20 +64,18 @@ namespace PS_Fgen_SW.ViewModel
             }
         );
 
+        private IFrameNavigationService _navigationService;
+
         /// <summary>
         /// Constructor for the MainViewModel.
         /// </summary>
         /// <param name="commIF">Communication interface</param>
-        public MainViewModel(IComm commIF)
+        /// <param name="navigationService">Navigation service</param>
+        public MainViewModel(IComm commIF, IFrameNavigationService navigationService)
         {
             Comm = commIF;
+            _navigationService = navigationService;
             ((ObservableObject)Comm).PropertyChanged += Comm_OnConnectionStateChanged;
-         
-            // Add available pages and set page
-            PageViews.Add(new Views.CommUserControl());
-            PageViews.Add(new Views.DeviceUserControl());
-
-            CurrentPageView = PageViews.FirstOrDefault();
         }
 
         /// <summary>
@@ -130,11 +87,11 @@ namespace PS_Fgen_SW.ViewModel
             {
                 if (Comm.Connected == true)
                 {
-                    ShowDeviceView();
+                    _navigationService.NavigateTo(ViewModelLocator.DeviceView);
                 }
                 else
                 {
-                    ShowCommView();
+                    _navigationService.NavigateTo(ViewModelLocator.CommView);
                 }
             }
         }

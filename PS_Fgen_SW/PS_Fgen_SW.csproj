@@ -78,11 +78,13 @@
     <Compile Include="Interfaces\IDdsChannelModel.cs" />
     <Compile Include="Interfaces\IDeviceModel.cs" />
     <Compile Include="Interfaces\IComm.cs" />
+    <Compile Include="Interfaces\IFrameNavigationService.cs" />
     <Compile Include="Interfaces\IPsChannelModel.cs" />
     <Compile Include="Model\CommModel.cs" />
     <Compile Include="Model\DdsChannelModel.cs" />
     <Compile Include="Model\PsChannelModel.cs" />
     <Compile Include="Communication\SimulationDevice.cs" />
+    <Compile Include="Services\FrameNavigationService.cs" />
     <Compile Include="ViewModel\CommViewModel.cs" />
     <Compile Include="ViewModel\DeviceViewModel.cs" />
     <Compile Include="ViewModel\PsChannelViewModel.cs" />

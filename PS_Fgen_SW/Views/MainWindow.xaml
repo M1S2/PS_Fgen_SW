@@ -17,17 +17,10 @@
         <i:EventTrigger EventName="Closing">
             <mvvmlight:EventToCommand Command="{Binding WindowClosing}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <mvvmlight:EventToCommand Command="{Binding WindowLoaded}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-            <Button Margin="10" Command="{Binding ShowCommViewCommand}">CommVIEW</Button>
-            <Button Margin="10" Command="{Binding ShowDeviceViewCommand}">DeviceVIEW</Button>
-        </StackPanel>
-
-        <ContentControl Content="{Binding CurrentPageView}"/>
-
-        <!--<view:CommUserControl Margin="10"/>
-        <view:DeviceUserControl/>-->
-    </StackPanel>
+    <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
 </Window>

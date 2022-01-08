@@ -18,6 +18,8 @@ using CommonServiceLocator;
 using PS_Fgen_SW.Interfaces;
 using PS_Fgen_SW.Model;
 using PS_Fgen_SW.Communication;
+using PS_Fgen_SW.Services;
+using System;
 
 namespace PS_Fgen_SW.ViewModel
 {
@@ -27,6 +29,9 @@ namespace PS_Fgen_SW.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        public const string CommView = "CommView";
+        public const string DeviceView = "DeviceView";
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -44,6 +49,8 @@ namespace PS_Fgen_SW.ViewModel
                 // Create run time view services and models
                 //SimpleIoc.Default.Register<IDataService, DataService>();
             }
+
+            SetupNavigation();
 
             //SimpleIoc.Default.Register<IComm, CommModel>();
             SimpleIoc.Default.Register<IComm>(() => new CommSim());
@@ -67,6 +74,14 @@ namespace PS_Fgen_SW.ViewModel
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
+        }
+
+        private static void SetupNavigation()
+        {
+            FrameNavigationService navigationService = new FrameNavigationService();
+            navigationService.Configure(CommView, new Uri("../Views/CommUserControl.xaml", UriKind.Relative));
+            navigationService.Configure(DeviceView, new Uri("../Views/DeviceUserControl.xaml", UriKind.Relative));
+            SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
         }
     }
 }
