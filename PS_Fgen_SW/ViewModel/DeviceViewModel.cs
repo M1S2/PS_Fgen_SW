@@ -20,8 +20,6 @@ namespace PS_Fgen_SW.ViewModel
     /// </summary>
     public class DeviceViewModel : ViewModelBase
     {
-        DispatcherTimer _measureTimer = new DispatcherTimer();
-
         private IDeviceModel _device;
         /// <summary>
         /// Device Model of the PS_Fgen device.
@@ -51,18 +49,6 @@ namespace PS_Fgen_SW.ViewModel
         {
             Comm = commIF;
             Device = deviceModel;
-            
-            _measureTimer.Interval = new TimeSpan(0, 0, 1);
-            _measureTimer.Tick += _measureTimer_Tick;
-            _measureTimer.Start();
-        }
-
-        /// <summary>
-        /// Get some parameters periodically from the device.
-        /// </summary>
-        private void _measureTimer_Tick(object sender, EventArgs e)
-        {
-            Device?.PS_Channel?.UpdateMeasuredParameters?.Execute(null);
         }
 
     }

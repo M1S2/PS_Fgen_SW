@@ -22,5 +22,11 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Show Comm View" Margin="10" Command="{Binding ShowCommViewCommand}"/>
+            <Button Content="Show Device View" Margin="10" Command="{Binding ShowDeviceViewCommand}"/>
+        </StackPanel>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+    </StackPanel>
 </Window>
